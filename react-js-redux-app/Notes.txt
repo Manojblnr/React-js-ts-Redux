@@ -1,0 +1,70 @@
+
+redux Q and A :
+    Link: https://www.geeksforgeeks.org/react-redux-interview-questions-and-answers/
+
+
+
+Setup redux environment
+
+1. Install the redux package
+    npm install @reduxjs/toolkit
+    npm install react-redux
+
+2. create store
+    1. create a store.js file inside src
+    2. Using Provider connect the store and components
+        1. In index.js file use Provider and make connection
+    
+3. Create a slice for task
+    1. create slices folder in src
+    2. create a tasksSlice.js file 
+        1. This file containes the Reducer(s), Initial state, slice name.
+        2. In the reducers is the functions, in that we need to pass
+            state, and action.
+        3. action has object of type and payload
+
+4. create a task
+    1. In Form.jsx file do dispatch actions.
+
+5. Reading the task
+    1. In Navbar.jsx file use useSelector hook and pass the reducer name we passed as key in the store.js file
+    2. get the tasksList array and use the length.
+
+6. For displaying the state data in table
+    1. same like above
+
+
+
+7. API calls using JSON server
+    1. Install the JSON server  
+            npm i json-server
+    
+    2. setup db.json file
+        1. Add the values for tasks object 
+        2. Than run the json server
+            npx json-server --watch server/db.json --port 8000
+    
+    3. Using the createAsyncThunk only we will do asynchronous operation in redux
+
+        note:
+           In createAsyncThunk two params are passed. one is type is string and payload creator is
+           callback api
+        
+            The payload creator has two params  args, thunkAPI
+
+            life cycle of asynchronous operation : pending, fulfilled, rejected.
+
+            This whole thing return Thunk action creator.
+
+            For adding the life cycle in reducer in the slice use extraReducers and the pass builder
+
+            That builder will handle the cases of pending, fulfilled, rejected.
+
+            Then in the TaskListTable using useEffect pass the get thunk creator in dispatch
+
+
+
+
+
+
+    
