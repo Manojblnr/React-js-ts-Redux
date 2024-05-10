@@ -93,31 +93,36 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store"; // Assuming RootState is the type of your Redux store's root state
 import UpdateDialog from "./UpdateDialog";
-import { removeTaskFromList, Task, getTasksFromServer, setSelectedTask } from "../slices/tasksSlice";
+import { removeTaskFromList, Task, getTasksFromServer, setSelectedTask, deleteTaskFromServer } from "../slices/tasksSlice";
 
 const TaskListTable = () => {
-    const dispatch = useDispatch<AppDispatch>();
     const { tasksList } = useSelector((state: RootState) => state.tasks);
     const [open, setOpen] = useState<boolean>(false);
-
-
-    useEffect(() => {
-        dispatch(getTasksFromServer())
-    },[dispatch])
 
     const handleClickOpen = (task: Task) => {
         console.log('edit is calling')
         setOpen(true);
         dispatch(setSelectedTask(task));
     };
-
+    
     const handleClickClose = () => {
         setOpen(false);
     };
+    
+    const dispatch = useDispatch<AppDispatch>();
+
+    useEffect(() => {
+        dispatch(getTasksFromServer())
+    },[dispatch])
+
+
 
     const handleDelete = (task: Task) => {
         console.log('delete is calling', task);
-        dispatch(removeTaskFromList(task));
+        dispatch(deleteTaskFromServer(task))
+        .then(() => {
+            dispatch(removeTaskFromList(task))
+        })
         console.log('Task successfully deleted');
     };
 

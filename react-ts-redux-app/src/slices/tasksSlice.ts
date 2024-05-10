@@ -57,8 +57,6 @@
 
 // JSON server
 
-
-
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 
 
@@ -143,15 +141,37 @@ export const updateTaskInServer = createAsyncThunk(
         }
         console.log('id', task.id)
         const response = await fetch(BASE_URL + '/' + task.id,  options)
+        console.log('res', response)
         if(response.ok){
+            console.log('reponse is ok', response)
             const jsonResponse = await response.json()
             return jsonResponse
         }else{
-            return rejectWithValue({error: 'Update Task failed'})
+            console.log(response, 'response failed')
+            return rejectWithValue({error: 'Update Task is failed'})
         }
     }
 )
 
+
+// DELETE Thunk Action Creator
+
+export const deleteTaskFromServer = createAsyncThunk(
+    'tasks/deleteTaskFromServer', async (task:Task, {rejectWithValue}) => {
+        const options = {
+            method: 'DELETE'
+        }
+        const response = await fetch(BASE_URL + '/' + task.id, options)
+        if(response.ok){
+            console.log('data is deleted')
+            const jsonResponse = await response.json()
+            return jsonResponse
+        }else{
+            console.log("data is not deleted", response)
+            return rejectWithValue({error: 'Delete Task is Failed'})
+        }
+    }
+)
 
 
 
@@ -199,6 +219,7 @@ const tasksSlice  = createSlice({
             .addCase(addTaskToServer.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.tasksList = [...state.tasksList, action.payload]
+                // state.tasksList.push(action.payload)
             })
             .addCase(addTaskToServer.rejected, (state, action: PayloadAction<any>) => {
                 state.isLoading = false
@@ -214,6 +235,19 @@ const tasksSlice  = createSlice({
                 state.tasksList = state.tasksList.map((task) => task.id === action.payload.id ? action.payload : task)
             })
             .addCase(updateTaskInServer.rejected, (state, action: PayloadAction<any>) => {
+                state.isLoading = false
+                state.error = action.payload.error
+            })
+
+
+            // deleteTaskFromServer
+            .addCase(deleteTaskFromServer.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(deleteTaskFromServer.fulfilled, (state, action) => {
+                state.isLoading = false
+            })
+            .addCase(deleteTaskFromServer.rejected, (state, action: PayloadAction<any>) => {
                 state.isLoading = false
                 state.error = action.payload.error
             })

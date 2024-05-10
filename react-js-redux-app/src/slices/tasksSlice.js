@@ -129,10 +129,31 @@ export const updateTaskInServer = createAsyncThunk(
             const jsonResponse = await response.json()
             return jsonResponse
         }else{
-            return rejectWithValue({error: 'Update Task failed'})
+            return rejectWithValue({error: 'Update Task Is Failed'})
         }
     }
 )
+
+
+// DELETE Thunk Action Creator
+
+export const deleteTaskFromServer = createAsyncThunk(
+    'tasks/deleteTaskFromServer', async (task, {rejectWithValue}) => {
+        const options = {
+            method : 'DELETE'
+        }
+
+        const response = await fetch(BASE_URL + '/' + task.id, options)
+        if(response.ok){
+            const jsonResponse = await response.json()
+            return jsonResponse
+        }else{
+            return rejectWithValue({error: 'Delete Task Is Failed'})
+        }
+    }
+
+)
+
 
 
 const tasksSlice = createSlice({
@@ -177,7 +198,7 @@ const tasksSlice = createSlice({
             })
             .addCase(addTaskToServer.fulfilled, (state, action) => {
                 state.isLoading = false
-                state.tasksList = state.tasksList.push(action.payload)
+                state.tasksList.push(action.payload)
             })
             .addCase(addTaskToServer.rejected, (state, action) => {
                 state.isLoading = false
@@ -194,6 +215,19 @@ const tasksSlice = createSlice({
                 state.tasksList = state.tasksList.map((task) => task.id === action.payload.id ? action.payload : task)
             })
             .addCase(updateTaskInServer.rejected, (state, action) => {
+                state.isLoading = false
+                state.error = action.payload.error
+            })
+
+
+            // DeleteTaskFromServer
+            .addCase(deleteTaskFromServer.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(deleteTaskFromServer.fulfilled, (state, action) => {
+                state.isLoading = false
+            })
+            .addCase(deleteTaskFromServer.rejected, (state, action) => {
                 state.isLoading = false
                 state.error = action.payload.error
             })

@@ -102,7 +102,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import UpdateDialog from "./UpdateDialog";
-import { setSelectedTask, removeTaskFromList, getTasksFromServer } from "../slices/tasksSlice";
+import { setSelectedTask, removeTaskFromList, getTasksFromServer, deleteTaskFromServer } from "../slices/tasksSlice";
 
 const TaskListTable = () => {
 
@@ -129,7 +129,10 @@ const TaskListTable = () => {
 
     const handleDelete = (task) => {
         console.log('delete is calling', task)
-        dispatch(removeTaskFromList(task))
+        dispatch(deleteTaskFromServer(task))
+        .then(() => {
+            dispatch(removeTaskFromList(task))
+        })
         console.log('Task successfully deleted')
     }
 

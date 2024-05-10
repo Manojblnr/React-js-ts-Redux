@@ -1,19 +1,9 @@
 {
   "tasks": [
     {
-      "id": "1",
-      "Task": "Task 1 updated",
+      "id": "f12c",
+      "Task": "Task 1",
       "Description": "Description 1"
-    },
-    {
-      "id": "2",
-      "Task": "Task 2",
-      "Description": "Description 2"
-    },
-    {
-      "id": "3",
-      "Task": "Task 3",
-      "Description": "Description 3"
     }
   ]
 }
