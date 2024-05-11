@@ -71,14 +71,14 @@ const Form = () => {
 
     const [Task, setTask] = useState<string>('');
     const [Description, setDescription] = useState<string>('');
-    const [id, setId] = useState(0) 
+    // const [id, setId] = useState<number>() 
 
 
     const addTask = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log("Task", Task);
         console.log('Description', Description);
-        dispatch(addTaskToServer({id, Task, Description}));
+        dispatch(addTaskToServer({Task, Description}));
 
         setTask('');
         setDescription('');

@@ -43,6 +43,7 @@ Setup redux environment
         1. Add the values for tasks object 
         2. Than run the json server
             npx json-server --watch server/db.json --port 8000
+            npx json-server --watch server/db.json --port 2000
     
     3. Using the createAsyncThunk only we will do asynchronous operation in redux
 

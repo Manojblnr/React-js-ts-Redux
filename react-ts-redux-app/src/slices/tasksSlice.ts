@@ -61,7 +61,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 
 
 export type Task = {
-    id:number
+    id?:number | null
     Task: string
     Description: string
 }
@@ -76,7 +76,7 @@ export type TasksState = {
 const initialState: TasksState = {
     tasksList: [],
     selectedTask: {
-        id:0,
+        id:null,
         Task:'',
         Description: ''
     },
@@ -139,7 +139,7 @@ export const updateTaskInServer = createAsyncThunk(
                 "Content-type" : "application/json; charset=UTF-8"
             }
         }
-        console.log('id', task.id)
+        console.log('id', task)
         const response = await fetch(BASE_URL + '/' + task.id,  options)
         console.log('res', response)
         if(response.ok){

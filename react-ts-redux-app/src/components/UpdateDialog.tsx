@@ -95,8 +95,9 @@
 
 
 
-// JSON server
 
+
+// JSON server
 
 import React, { useEffect, useState } from "react";
 import {
@@ -137,7 +138,7 @@ const UpdateDialog = ({ open, handleClickClose }: UpdateDialogProps) => {
         if (Object.keys(selectedTask).length !== 0) {
             setTask(selectedTask.Task);
             setDescription(selectedTask.Description);
-            setId(selectedTask.id);
+            setId(selectedTask.id as number);
             console.log('value', selectedTask.Task);
         }
         console.log('data', selectedTask);
